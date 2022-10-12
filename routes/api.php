@@ -7,6 +7,7 @@ use App\Http\Controllers\CarroController;
 use App\Http\Controllers\LocacaoController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\ModeloController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +24,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('cliente', ClienteController::class);
-Route::apiResource('carro', CarroController::class);
-Route::apiResource('locacao', LocacaoController::class);
-Route::apiResource('marca', MarcaController::class);
-Route::apiResource('modelo', ModeloController::class);
+Route::middleware('jwt.auth')->prefix('v1')->group(function() {
+    Route::apiResource('cliente', ClienteController::class);
+    Route::apiResource('carro', CarroController::class);
+    Route::apiResource('locacao', LocacaoController::class);
+    Route::apiResource('marca', MarcaController::class);
+    Route::apiResource('modelo', ModeloController::class);
+
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    //renonva a autorização
+    Route::post('me', [AuthController::class, 'me']);
+    //ver o usuario que fez a autenticação atraves do token passado
+    Route::post('logout', [AuthController::class, 'logout']);
+    //revoca o jwt = Json Web Token
+});
+
+Route::post('login', [AuthController::class, 'login']);
 
