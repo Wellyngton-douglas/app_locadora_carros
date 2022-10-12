@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MarcaRepository {
+class ModeloRepository {
 
     public function __construct(Model $model) {
         $this->model = $model;
@@ -35,3 +35,5 @@ class MarcaRepository {
     }
 
 }
+
+?>
