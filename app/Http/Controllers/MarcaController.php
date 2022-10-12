@@ -17,10 +17,36 @@ class MarcaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $marca = array();
+
+        if($request->has('atributos_modelos')) {
+            $atributos_modelos = $request->atributos_modelos;
+            $marcas = $this->marca->with('modelos:id,'.$atributos_modelos);
+        } else {
+            $marcas = $this->marca->with('modelos');
+        }
+
+        if($request->has('filtro')) {
+            $filtros = explode(';', $request->filtro);
+            foreach($filtros as $key => $condicao) {
+
+                $c = explode(':', $condicao);
+                $marcas = $marcas->where($c[0], $c[1], $c[2]);
+
+            }
+        }
+
+        if($request->has('atributos')) {
+            $atributos = $request->atributos;
+            $marcas = $marcas->selectRaw($atributos)->get();
+        } else {
+            $marcas = $marcas->get();
+        }
+
         //$marcas = Marca::all();
-        $marcas = $this->marca->with('modelos')->get();
+        //$marcas = $this->marca->with('modelos')->get();
         return response()->json($marcas, 200);
     }
 
@@ -135,7 +161,7 @@ class MarcaController extends Controller
         if($request->file('imagem') !== null) {
             $marca->imagem = $imagem_urn;
         }
-        
+
         //dd($marca->getAttributes());
         $marca->save();
         // $marca->update([
