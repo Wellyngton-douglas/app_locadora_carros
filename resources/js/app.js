@@ -6,7 +6,15 @@
 
 import './bootstrap';
 import { createApp } from 'vue';
+import { createStore } from 'vuex';
 
+const store = createStore({
+  state: {
+    test: 'test de recuperação'
+  }
+}
+
+)
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
@@ -24,6 +32,7 @@ import TableComponent from './components/Table.vue';
 import CardComponent from './components/Card.vue';
 import ModalComponent from './components/Modal.vue';
 import AlertComponent from './components/Alert.vue';
+import PaginateComponent from './components/Paginate.vue';
 app.component('example-component', ExampleComponent);
 app.component('login-component', LoginComponent);
 app.component('home-component', HomeComponent);
@@ -33,6 +42,7 @@ app.component('table-component', TableComponent);
 app.component('card-component', CardComponent);
 app.component('modal-component', ModalComponent);
 app.component('alert-component', AlertComponent);
+app.component('paginate-component', PaginateComponent);
 
 /**
  * The following block of code may be used to automatically register your
@@ -52,5 +62,7 @@ app.component('alert-component', AlertComponent);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
+
+app.use(store);
 app.mount('#app');
 
