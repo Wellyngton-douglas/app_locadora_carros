@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <th scope="col" v-for="t, key in titulos" :key="key">{{t.titulo}}</th>
-                    <th v-if="botoes.visualizar.visivel || botoes.atualizar.visivel || botoes.remover.visivel"></th>
+                    <th v-if="botoes.atualizar.visivel || botoes.remover.visivel"></th>
                 </tr>
             </thead>
             <tbody>
@@ -16,10 +16,9 @@
                             <img :src="'/storage/'+valor" width="40" height="30">
                         </span>
                     </td>
-                    <td v-if="botoes.visualizar.visivel || botoes.atualizar.visivel || botoes.remover.visivel">
-                        <button v-if="botoes.visualizar.visivel" class="btn btn-outline-primary btn-sm" :data-bs-toggle="botoes.visualizar.dataToggle" :data-bs-target="botoes.visualizar.dataTarget">Visualizar</button>
+                    <td v-if="botoes.atualizar.visivel || botoes.remover.visivel">
                         <button v-if="botoes.atualizar.visivel" class="btn btn-outline-primary btn-sm" :data-bs-toggle="botoes.atualizar.dataToggle" :data-bs-target="botoes.atualizar.dataTarget">Atualizar</button>
-                        <button v-if="botoes.remover.visivel" class="btn btn-outline-danger btn-sm" :data-bs-toggle="botoes.remover.dataToggle" :data-bs-target="botoes.remover.dataTarget">Remover</button>
+                        <button v-if="botoes.remover.visivel" class="btn btn-outline-danger btn-sm" :data-bs-toggle="botoes.remover.dataToggle" :data-bs-target="botoes.remover.dataTarget" @click="setStore(obj)">Remover</button>
                     </td>
                 </tr>
             </tbody>
@@ -30,6 +29,13 @@
 <script>
     export default {
         props: ['dados', 'titulos', 'botoes'],
+        methods: {
+            setStore(obj) {
+                this.$store.state.transacao.status = ''
+                this.$store.state.transacao.mensagem = ''
+                this.$store.state.item = obj
+            }
+        },
         computed: {
             dadosFiltrados() {
                 let colunas = Object.keys(this.titulos) //pegar a chave dos titulos que foi passado
