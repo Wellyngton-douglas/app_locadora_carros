@@ -111,6 +111,34 @@
 			</template>
 		</modal-component>
         <!-- Fim modal remover -->
+
+        <!-- Inicio modal atualizar -->
+		<modal-component id="modalMarcaAtualizar" title="Atualizar marca">
+			<template v-slot:alertas>
+                <alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Transação realizada com sucesso" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
+                <alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Erro na transação" v-if="$store.state.transacao.status == 'erro'"></alert-component>
+            </template>
+			<template v-slot:conteudo>
+                <div class="form-group">
+                    <input-container-component titulo="Nome da marca" id="atualizarNome" id-help="atualizarNomeHelp" texto-ajuda="Informe o nome da marca">
+                        <input type="text" class="form-control" id="atualizarNome" aria-describedby="atualizarNomeHelp" placeholder="Nome da marca" v-model="$store.state.item.nome">
+                    </input-container-component>
+                </div>
+
+                <div class="form-group">
+                    <input-container-component titulo="Imagem" id="atualizarImagem" id-help="atualizarImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
+                        <input type="file" class="form-control" id="atualizarImagem" aria-describedby="atualizarImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
+                    </input-container-component>
+                </div>
+			</template>
+			<template v-slot:rodape>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-danger" @click="atualizar()">Atulizar</button>
+				</div>
+			</template>
+		</modal-component>
+        <!-- Fim modal atualizar -->
 	</div>
 </template>
 
@@ -140,6 +168,39 @@
 			}
 		},
 		methods: {
+            atualizar() {
+                let formData = new FormData();
+                formData.append('_method', 'patch')
+				formData.append('nome', this.$store.state.item.nome)
+
+				if(this.arquivoImagem[0]) {
+                    formData.append('imagem', this.arquivoImagem[0])
+                }
+
+                let url = this.urlBase + '/' + this.$store.state.item.id
+
+                let config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Accept': 'application/json'
+                    }
+                }
+
+                axios.post(url, formData, config)
+                    .then(response => {
+                        console.log('Atualizado', response)
+                        atualizarImagem.value = ''
+                        this.$store.state.transacao.status = 'sucesso'
+                        this.$store.state.transacao.mensagem = 'Registro de marca atualizado com sucesso'
+                        this.carregarLista()
+                    })
+                    .catch(errors => {
+                        console.log('Erro de atualização', errors.response)
+                        this.$store.state.transacao.status = 'erro'
+                        this.$store.state.transacao.mensagem = errors.response.data.message
+                        this.$store.state.transacao.dados = errors.response.data.errors
+                    })
+            },
             remover() {
                 let confirmacao = confirm('Tem certeza que deseja remover esse registro?')
 
@@ -167,7 +228,8 @@
                     })
                     .catch(errors => {
                         this.$store.state.transacao.status = 'erro'
-                        this.$store.state.transacao.mensagem = errors.response.data.erro
+                        this.$store.state.transacao.mensagem = errors.response.data.message
+                        this.$store.state.transacao.dados = errors.response.data.errors
                     })
 
             },

@@ -138,16 +138,13 @@ class MarcaController extends Controller
             Storage::disk('public')->delete($marca->imagem);
         }
 
+        $marca->fill($request->all());
+
         //verifica se ta sendo mandado a imagem, se tiver pega da requisição e seta
         //no $marca antes de realizar a atualização
         if($request->file('imagem') !== null) {
             $imagem = $request->file('imagem');
             $imagem_urn = $imagem->store('imagens', 'public');
-        }
-        
-        $marca->fill($request->all());
-
-        if($request->file('imagem') !== null) {
             $marca->imagem = $imagem_urn;
         }
 

@@ -12,7 +12,8 @@ const store = createStore({
   state: {
     item: {},
     transacao: {status: '',
-                mensagem: ''}
+                mensagem: '',
+                dados: ''}
   }
 }
 
