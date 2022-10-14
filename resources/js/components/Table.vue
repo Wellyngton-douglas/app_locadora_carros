@@ -11,7 +11,9 @@
                 <tr v-for="obj, chave in dadosFiltrados" :key="chave">
                     <td v-for="valor, chaveValor in obj" :key="chaveValor">
                         <span v-if="titulos[chaveValor].tipo == 'texto'">{{valor}}</span>
-                        <span v-if="titulos[chaveValor].tipo == 'data'">{{valor}}</span>
+                        <span v-if="titulos[chaveValor].tipo == 'data'">
+                            {{ format(new Date(valor), 'dd/MM/yyyy HH:mm:ss') }}
+                        </span>
                         <span v-if="titulos[chaveValor].tipo == 'imagem'">
                             <img :src="'/storage/'+valor" width="40" height="30">
                         </span>
@@ -27,9 +29,18 @@
 </template>
 
 <script>
+    import { format, formatDistance, formatRelative, subDays } from 'date-fns'
     export default {
+        data() {
+            return {
+                format
+            }
+        },
         props: ['dados', 'titulos', 'botoes'],
         methods: {
+            // formatDatTime(dt) {
+            //     return new Intl.DateTimeFormat('default', {dateStyle: 'long'}).format(dt);
+            // },
             setStore(obj) {
                 this.$store.state.transacao.status = ''
                 this.$store.state.transacao.mensagem = ''

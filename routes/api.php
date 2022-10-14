@@ -31,8 +31,6 @@ Route::middleware('jwt.auth')->prefix('v1')->group(function() {
     Route::apiResource('marca', MarcaController::class);
     Route::apiResource('modelo', ModeloController::class);
 
-    Route::post('refresh', [AuthController::class, 'refresh']);
-    //renonva a autorização
     Route::post('me', [AuthController::class, 'me']);
     //ver o usuario que fez a autenticação atraves do token passado
     Route::post('logout', [AuthController::class, 'logout']);
@@ -40,4 +38,6 @@ Route::middleware('jwt.auth')->prefix('v1')->group(function() {
 });
 
 Route::post('login', [AuthController::class, 'login']);
+Route::post('refresh', [AuthController::class, 'refresh']);
+//renonva a autorização
 

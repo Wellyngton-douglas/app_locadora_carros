@@ -65,7 +65,6 @@ app.component('paginate-component', PaginateComponent);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
-
 app.use(store);
 app.mount('#app');
 
