@@ -13,8 +13,12 @@ const store = createStore({
     item: {},
     transacao: {status: '',
                 mensagem: '',
-                dados: ''}
-  }
+                dados: ''},
+    configUrl: {
+      modelos: 'http://localhost:8000/api/v1/modelo',
+      marcas: 'http://localhost:8000/api/v1/marca',
+    }
+  },
 }
 
 )
@@ -36,6 +40,7 @@ import CardComponent from './components/Card.vue';
 import ModalComponent from './components/Modal.vue';
 import AlertComponent from './components/Alert.vue';
 import PaginateComponent from './components/Paginate.vue';
+import ModelosComponent from './components/Modelos.vue';
 app.component('example-component', ExampleComponent);
 app.component('login-component', LoginComponent);
 app.component('home-component', HomeComponent);
@@ -46,6 +51,7 @@ app.component('card-component', CardComponent);
 app.component('modal-component', ModalComponent);
 app.component('alert-component', AlertComponent);
 app.component('paginate-component', PaginateComponent);
+app.component('modelos-component', ModelosComponent);
 
 /**
  * The following block of code may be used to automatically register your

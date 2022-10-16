@@ -31,7 +31,7 @@ class Modelo extends Model
             'mimes' => 'O arquivo deve ser uma imagem do tipo PNG/JPEG/JPG',
             'numero_portas.digits_between' => 'O numero de portas tem que ter entre 1 a 4 portas',
             'lugares.digits_between' => 'O numero de lugares tem que ser entre 1 a 8 lugares',
-            'boolean' => 'O :attribute tem que ser verdadeiro, falso, 1 ou 2'
+            'boolean' => 'O :attribute tem que ser verdadeiro, falso, 1 ou 0'
         ];
     }
 

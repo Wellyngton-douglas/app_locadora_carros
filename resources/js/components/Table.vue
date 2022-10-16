@@ -17,6 +17,14 @@
                         <span v-if="titulos[chaveValor].tipo == 'imagem'">
                             <img :src="'/storage/'+valor" width="40" height="30">
                         </span>
+                        <span v-if="titulos[chaveValor].tipo == 'condicao'">
+                            <span v-if="valor == '1'">
+                                Sim
+                            </span>
+                            <span v-else>
+                                Não
+                            </span>
+                        </span>
                     </td>
                     <td v-if="botoes.atualizar.visivel || botoes.remover.visivel">
                         <button v-if="botoes.atualizar.visivel" class="btn btn-outline-primary btn-sm" :data-bs-toggle="botoes.atualizar.dataToggle" :data-bs-target="botoes.atualizar.dataTarget" @click="setStore(obj)">Atualizar</button>
@@ -46,6 +54,7 @@
                 this.$store.state.transacao.mensagem = ''
                 this.$store.state.transacao.dados = ''
                 this.$store.state.item = obj
+                console.log(obj)
             }
         },
         computed: {
@@ -56,7 +65,6 @@
                 this.dados.map((item, chave) => {
                     let itemFiltrado = {}
                     colunas.forEach(campo => {
-                        
                         itemFiltrado[campo] = item[campo]
                         //utilizar a sintaxe de array para atribuir valores a objetos
                     })

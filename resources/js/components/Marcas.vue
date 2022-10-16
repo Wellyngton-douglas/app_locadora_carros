@@ -14,7 +14,7 @@
                             </div>
                             <div class="col mb-3">
                                 <input-container-component id="nomeHelp" titulo="Nome" id-help="nomeHelp" texto-ajuda="Opcional. Informe o Nome da Marca">
-                                <input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Nome da marca" v-model="busca.nome">
+                                	<input type="text" class="form-control" id="inputNome" aria-describedby="nomeHelp" placeholder="Nome da marca" v-model="busca.nome">
 								</input-container-component>
                             </div>
                         </div>
@@ -56,89 +56,89 @@
                     </template>
                 </card-component>
 				<!-- Fim card listagem-->
+
+				<!-- Inicio modal adicionar -->
+				<modal-component id="modalMarca" title="Adicionar Marca">
+					<template v-slot:alertas>
+						<alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Cadastro realizado com sucesso" v-if="$store.state.transacao.status == 'adicionado'"></alert-component>
+						<alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Erro ao tentar cadastrar a marca" v-if="$store.state.transacao.status == 'erro'"></alert-component>
+					</template>
+					<template v-slot:conteudo v-if="$store.state.transacao.status != 'adicionado'">
+						<div class="form">
+							<div class="col mb-3">
+								<input-container-component id="novoNome" titulo="Nome da Marca" id-help="novoNomeHelp" texto-ajuda="Informe o Nome da Marca">
+									<input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome da Marca" v-model="nomeMarca">
+								</input-container-component>
+							</div>
+							<div class="col mb-3">
+								<input-container-component id="novaImagem" titulo="Imagem" id-help="novaImagemHelp" texto-ajuda="Informe a Imagem da Marca">
+									<input type="file" class="form-control" id="novaImagem" aria-describedby="novaImagemHelp" placeholder="Imagem" @change="carregarImagem($event)">
+								</input-container-component>
+							</div>
+						</div>
+					</template>
+					<template v-slot:rodape>
+						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+							<button type="button" class="btn btn-primary" @click="salvar()" v-if="$store.state.transacao.status != 'adicionado'">Salvar</button>
+						</div>
+					</template>
+				</modal-component>
+				<!-- Fim modal adicionar -->
+
+				<!-- Inicio modal remover -->
+				<modal-component id="modalMarcaRemover" title="Remover marca">
+					<template v-slot:alertas>
+						<alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Transação realizada com sucesso" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
+						<alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Erro na transação" v-if="$store.state.transacao.status == 'erro'"></alert-component>
+					</template>
+					<template v-slot:conteudo v-if="$store.state.transacao.status != 'sucesso'">
+						<input-container-component titulo="Número">
+							<input type="text" class="form-control" :value="$store.state.item.id" disabled>
+						</input-container-component>
+
+						<input-container-component titulo="Nome da marca">
+							<input type="text" class="form-control" :value="$store.state.item.nome" disabled>
+						</input-container-component>
+					</template>
+					<template v-slot:rodape>
+						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+							<button type="button" class="btn btn-danger" @click="remover()" v-if="$store.state.transacao.status != 'sucesso'">Remover</button>
+						</div>
+					</template>
+				</modal-component>
+						<!-- Fim modal remover -->
+
+						<!-- Inicio modal atualizar -->
+				<modal-component id="modalMarcaAtualizar" title="Atualizar marca">
+					<template v-slot:alertas>
+						<alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Transação realizada com sucesso" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
+						<alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Erro na transação" v-if="$store.state.transacao.status == 'erro'"></alert-component>
+					</template>
+					<template v-slot:conteudo>
+						<div class="form-group">
+								<input-container-component titulo="Nome da marca" id="atualizarNome" id-help="atualizarNomeHelp" texto-ajuda="Informe o nome da marca">
+										<input type="text" class="form-control" id="atualizarNome" aria-describedby="atualizarNomeHelp" placeholder="Nome da marca" v-model="$store.state.item.nome">
+								</input-container-component>
+						</div>
+
+						<div class="form-group">
+								<input-container-component titulo="Imagem" id="atualizarImagem" id-help="atualizarImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
+									<input type="file" class="form-control" id="atualizarImagem" aria-describedby="atualizarImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
+								</input-container-component>
+						</div>
+					</template>
+					<template v-slot:rodape>
+						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+							<button type="button" class="btn btn-danger" @click="atualizar()">Atulizar</button>
+						</div>
+					</template>
+				</modal-component>
+				<!-- Fim modal atualizar -->
 			</div>
 		</div>
-
-		<!-- Inicio modal adicionar -->
-		<modal-component id="modalMarca" title="Adicionar Marca">
-			<template v-slot:alertas>
-                <alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Cadastro realizado com sucesso" v-if="$store.state.transacao.status == 'adicionado'"></alert-component>
-                <alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Erro ao tentar cadastrar a marca" v-if="$store.state.transacao.status == 'erro'"></alert-component>
-            </template>
-			<template v-slot:conteudo v-if="$store.state.transacao.status != 'adicionado'">
-				<div class="form">
-					<div class="col mb-3">
-						<input-container-component id="novoNome" titulo="Nome da Marca" id-help="novoNomeHelp" texto-ajuda="Informe o Nome da Marca">
-							<input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome da Marca" v-model="nomeMarca">
-						</input-container-component>
-					</div>
-					<div class="col mb-3">
-						<input-container-component id="novaImagem" titulo="Imagem" id-help="novaImagemHelp" texto-ajuda="Informe a Imagem da Marca">
-							<input type="file" class="form-control" id="novaImagem" aria-describedby="novaImagemHelp" placeholder="Imagem" @change="carregarImagem($event)">
-						</input-container-component>
-					</div>
-				</div>
-			</template>
-			<template v-slot:rodape>
-				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-primary" @click="salvar()" v-if="$store.state.transacao.status != 'adicionado'">Salvar</button>
-				</div>
-			</template>
-		</modal-component>
-		<!-- Fim modal adicionar -->
-
-		<!-- Inicio modal remover -->
-		<modal-component id="modalMarcaRemover" title="Remover marca">
-			<template v-slot:alertas>
-                <alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Transação realizada com sucesso" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
-                <alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Erro na transação" v-if="$store.state.transacao.status == 'erro'"></alert-component>
-            </template>
-			<template v-slot:conteudo v-if="$store.state.transacao.status != 'sucesso'">
-				<input-container-component titulo="Número">
-                    <input type="text" class="form-control" :value="$store.state.item.id" disabled>
-                </input-container-component>
-
-                <input-container-component titulo="Nome da marca">
-                    <input type="text" class="form-control" :value="$store.state.item.nome" disabled>
-                </input-container-component>
-			</template>
-			<template v-slot:rodape>
-				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-danger" @click="remover()" v-if="$store.state.transacao.status != 'sucesso'">Remover</button>
-				</div>
-			</template>
-		</modal-component>
-        <!-- Fim modal remover -->
-
-        <!-- Inicio modal atualizar -->
-		<modal-component id="modalMarcaAtualizar" title="Atualizar marca">
-			<template v-slot:alertas>
-                <alert-component tipo="success" :detalhes="$store.state.transacao" titulo="Transação realizada com sucesso" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
-                <alert-component tipo="danger" :detalhes="$store.state.transacao" titulo="Erro na transação" v-if="$store.state.transacao.status == 'erro'"></alert-component>
-            </template>
-			<template v-slot:conteudo>
-                <div class="form-group">
-                    <input-container-component titulo="Nome da marca" id="atualizarNome" id-help="atualizarNomeHelp" texto-ajuda="Informe o nome da marca">
-                        <input type="text" class="form-control" id="atualizarNome" aria-describedby="atualizarNomeHelp" placeholder="Nome da marca" v-model="$store.state.item.nome">
-                    </input-container-component>
-                </div>
-
-                <div class="form-group">
-                    <input-container-component titulo="Imagem" id="atualizarImagem" id-help="atualizarImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
-                        <input type="file" class="form-control" id="atualizarImagem" aria-describedby="atualizarImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
-                    </input-container-component>
-                </div>
-			</template>
-			<template v-slot:rodape>
-				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                    <button type="button" class="btn btn-danger" @click="atualizar()">Atulizar</button>
-				</div>
-			</template>
-		</modal-component>
-        <!-- Fim modal atualizar -->
 	</div>
 </template>
 
@@ -260,7 +260,6 @@
 				axios.get(url)
 					.then(response => {
 						this.marcas = response.data
-						console.log(this.marcas)
 					})
 					.catch(errors => {
 						console.log(errors)
