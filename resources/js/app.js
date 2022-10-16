@@ -17,6 +17,7 @@ const store = createStore({
     configUrl: {
       modelos: 'http://localhost:8000/api/v1/modelo',
       marcas: 'http://localhost:8000/api/v1/marca',
+      carros: 'http://localhost:8000/api/v1/carro',
     }
   },
 }
@@ -41,6 +42,7 @@ import ModalComponent from './components/Modal.vue';
 import AlertComponent from './components/Alert.vue';
 import PaginateComponent from './components/Paginate.vue';
 import ModelosComponent from './components/Modelos.vue';
+import CarrosComponent from './components/Carros.vue';
 app.component('example-component', ExampleComponent);
 app.component('login-component', LoginComponent);
 app.component('home-component', HomeComponent);
@@ -52,6 +54,7 @@ app.component('modal-component', ModalComponent);
 app.component('alert-component', AlertComponent);
 app.component('paginate-component', PaginateComponent);
 app.component('modelos-component', ModelosComponent);
+app.component('carros-component', CarrosComponent);
 
 /**
  * The following block of code may be used to automatically register your

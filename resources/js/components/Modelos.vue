@@ -65,7 +65,7 @@
 					<template v-slot:conteudo v-if="$store.state.transacao.status != 'adicionado'">
 						<div class="form">
 							<div class="col mb-3">
-								<input-container-component id="novoNome" titulo="Nome da Marca" id-help="novoNomeHelp" texto-ajuda="Informe o Nome da Marca">
+								<input-container-component id="novaMarca" titulo="Nome da Marca" id-help="novaMarcaHelp" texto-ajuda="Informe o Nome da Marca">
                                     <select v-model="marca_id" class="form-select" aria-label="Default select example" @click="carregarListaMarca()">
                                         <option value="" disabled>Escolha uma Marca</option>
                                         <option v-for="marca in marcas" :key="marca.id" :value="marca.id">
