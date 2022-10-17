@@ -20,6 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/marcas', function() { return view('app.marcas'); })->name('marcas');
-Route::get('/modelos', function() { return view('app.modelos'); })->name('modelos');
-Route::get('/carros', function() { return view('app.carros'); })->name('carros');
+Route::middleware('auth')->get('/marcas', function() { return view('app.marcas'); })->name('marcas');
+Route::middleware('auth')->get('/modelos', function() { return view('app.modelos'); })->name('modelos');
+Route::middleware('auth')->get('/carros', function() { return view('app.carros'); })->name('carros');
